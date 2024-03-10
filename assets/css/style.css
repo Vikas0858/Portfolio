@@ -301,11 +301,11 @@ h6 {
   }
 }
 /* addtional */
-/* @media (max-width:1024px) and (min-width:768px) {
-  #hero p{
-    margin-bottom: 500px;
+@media (max-width:1024px) and (min-width:768px) {
+  #hero h1,h2{
+    margin-right: 200px;
   }
-} */
+}
 @media (max-width: 768px) {
   #hero h1 {
     font-size: 28px;
@@ -325,6 +325,9 @@ h6 {
    #hero h1{
     margin-left: 100px;
   }  */
+   #hero h1,h2{
+    margin-right: 200px;
+  } 
 }
 
 /*--------------------------------------------------------------
