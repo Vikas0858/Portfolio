@@ -614,7 +614,7 @@ As an Executive for the Metallurgical and Material Society at MNIT Jaipur, part 
     </section> 
     <!-- End Testimonials Section -->
 
-    <!-- ======= Contact Section ======= -->
+<!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
       <div class="container">
 
@@ -652,7 +652,8 @@ As an Executive for the Metallurgical and Material Society at MNIT Jaipur, part 
           </div>
 
           <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form action="https://api.web3forms.com/submit" method="post" id="form" role="form" class="php-email-form">
+              <input type="hidden" name="access_key" value="5ed6ea47-7ddd-47df-b6e9-2e70f626bd33">
               <div class="row">
                 <div class="form-group col-md-6">
                   <label for="name">Your Name</label>
@@ -669,13 +670,15 @@ As an Executive for the Metallurgical and Material Society at MNIT Jaipur, part 
               </div>
               <div class="form-group">
                 <label for="name">Message</label>
-    <textarea class="form-control" name="message" rows="10" placeholder="Write your message here. Please send your message to 2021umt1756@mnit.ac.in if it was not sent." required></textarea>              </div>
+                <textarea class="form-control" name="message" rows="10" placeholder="Write your message here. Please send your message to 2021umt1756@mnit.ac.in if it was not sent." required></textarea>
+              </div>
               <div class="my-3">
                 <div class="loading">Loading</div>
                 <div class="error-message"></div>
                 <div class="sent-message">Your message has been sent. Thank you!</div>
               </div>
               <div class="text-center"><button type="submit">Send Message</button></div>
+              <div id="result"></div>
             </form>
           </div>
 
@@ -713,8 +716,47 @@ As an Executive for the Metallurgical and Material Society at MNIT Jaipur, part 
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/typed.js/typed.umd.js"></script>
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
+  <!-- <script src="assets/vendor/php-email-form/validate.js"></script> -->
+  <script>
+    const form = document.getElementById('form');
+    const result = document.getElementById('result');
+    
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
+      result.innerHTML = "Please wait..."
+    
+        fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                let json = await response.json();
+                if (response.status == 200) {
+                    result.innerHTML = "Form submitted successfully";
+                } else {
+                    console.log(response);
+                    result.innerHTML = json.message;
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                result.innerHTML = "Something went wrong!";
+            })
+            .then(function() {
+                form.reset();
+                setTimeout(() => {
+                    result.style.display = "none";
+                }, 3000);
+            });
+    });
+    </script>
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
